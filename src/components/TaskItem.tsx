@@ -33,7 +33,7 @@ export function TaskItem({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-      className={`flex items-start gap-2.5 rounded-xl border px-3 py-3 transition-colors duration-150 ease-snap sm:gap-3 sm:px-4 sm:py-3.5 ${
+      className={`flex w-full min-w-0 items-start gap-2.5 rounded-xl border px-3 py-3 transition-colors duration-150 ease-snap sm:gap-3 sm:px-4 sm:py-3.5 ${
         skipped ? "border-ink-800 bg-ink-900" : "border-ink-800 bg-ink-850"
       }`}
     >
@@ -62,11 +62,11 @@ export function TaskItem({
         type="button"
         onClick={() => expandable && setOpen((v) => !v)}
         aria-expanded={expandable ? open : undefined}
-        className="min-w-0 flex-1 text-left"
+        className="min-w-0 flex-1 overflow-hidden text-left"
       >
         <span className="flex items-start gap-1.5">
           <span
-            className={`min-w-0 flex-1 break-words text-sm font-semibold transition-colors duration-150 ease-snap ${
+            className={`min-w-0 flex-1 text-sm font-semibold [overflow-wrap:anywhere] transition-colors duration-150 ease-snap ${
               done ? "text-chalk-faint line-through" : skipped ? "text-chalk-faint" : "text-chalk"
             }`}
           >
@@ -87,7 +87,7 @@ export function TaskItem({
         {note && (
           <span
             className={`mt-0.5 block text-xs leading-relaxed text-chalk-faint ${
-              open ? "whitespace-pre-wrap" : "truncate"
+              open ? "whitespace-pre-wrap [overflow-wrap:anywhere]" : "line-clamp-2"
             }`}
           >
             {note}
@@ -99,6 +99,7 @@ export function TaskItem({
         <button
           type="button"
           onClick={() => onSkip(task.id)}
+          aria-label={skipped ? "Undo skip" : skipLabel}
           className={`mt-0.5 flex shrink-0 items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors duration-150 ease-snap sm:gap-1.5 sm:px-2.5 ${
             skipped
               ? "bg-ink-800 text-chalk-muted hover:text-chalk"
@@ -108,12 +109,12 @@ export function TaskItem({
           {skipped ? (
             <>
               <UndoIcon className="h-3.5 w-3.5" aria-hidden="true" />
-              Undo
+              <span className="hidden sm:inline">Undo</span>
             </>
           ) : (
             <>
               <SkipForwardIcon className="h-3.5 w-3.5" aria-hidden="true" />
-              {skipLabel}
+              <span className="hidden sm:inline">{skipLabel}</span>
             </>
           )}
         </button>

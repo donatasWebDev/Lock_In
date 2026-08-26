@@ -67,7 +67,7 @@ export default function TodayPage() {
   const canGenerate = generateUnlimited || generateUsed < GENERATE_DAILY_LIMIT;
 
   return (
-    <div className="overflow-x-hidden px-4 pt-[max(1.5rem,env(safe-area-inset-top))] sm:px-5 sm:pt-8 md:px-10 md:pt-10">
+    <div className="space-y-4 px-5 pt-8 pb-6 md:px-10 md:pt-10">
       <header className="flex items-start justify-between gap-3 sm:items-end sm:gap-6">
         <div className="min-w-0 flex-1">
           <p className="truncate text-[11px] font-medium uppercase tracking-[0.1em] text-chalk-faint sm:text-xs sm:tracking-[0.14em]">
@@ -97,8 +97,8 @@ export default function TodayPage() {
         </div>
       </header>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-6">
-        <div className="space-y-4">
+      <div className="mt-6 min-w-0 grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-6">
+        <div className="min-w-0 space-y-4">
           <section className="rounded-2xl border border-ink-800 bg-ink-900 p-4 shadow-lift sm:p-5 md:p-6">
             <AnimatePresence mode="wait" initial={false}>
               {locked ? (
@@ -281,7 +281,7 @@ export default function TodayPage() {
             </div>
 
             {total > 0 ? (
-              <ul className="mt-4 space-y-2">
+              <ul className="mt-4 min-w-0 space-y-2">
                 {today.tasks.map((task) => (
                   <TaskItem
                     key={task.id}
@@ -319,7 +319,7 @@ export default function TodayPage() {
               </Link>
             </div>
             {dayRules.length > 0 ? (
-              <ul className="mt-4 space-y-2">
+              <ul className="mt-4 min-w-0 space-y-2">
                 {dayRules.map((rule) => (
                   <TaskItem
                     key={rule.id}
@@ -346,7 +346,7 @@ export default function TodayPage() {
           </section>
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <section className="grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-ink-800 bg-ink-900 p-4">
               <p className="text-xs font-medium uppercase tracking-wider text-chalk-faint">
