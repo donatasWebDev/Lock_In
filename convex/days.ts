@@ -8,6 +8,7 @@ import {
   emptyDay,
   isDevUnlimited,
   lockedDates,
+  optionalUser,
   requireUser,
   startOfCalendarMonth,
   toDayEntry,
@@ -221,7 +222,8 @@ export const setRuleStatus = mutation({
 export const syncRules = mutation({
   args: { date: v.string() },
   handler: async (ctx, { date }) => {
-    const user = await requireUser(ctx);
+    const user = await optionalUser(ctx);
+    if (!user) return;
     await applyActiveRulesToDay(ctx, user._id, date);
   },
 });

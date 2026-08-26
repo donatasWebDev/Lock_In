@@ -5,6 +5,7 @@ import {
   computeStreak,
   dayFor,
   lockedDates,
+  optionalUser,
   requireUser,
   sameMonth,
 } from "./helpers";
@@ -65,7 +66,8 @@ async function friendCard(ctx: QueryCtx, userId: Id<"users">, today: string) {
 export const list = query({
   args: { date: v.string() },
   handler: async (ctx, { date }) => {
-    const user = await requireUser(ctx);
+    const user = await optionalUser(ctx);
+    if (!user) return [];
     const ids = await friendIds(ctx, user._id);
     const friends = [];
     for (const id of ids) {
@@ -82,7 +84,8 @@ export const list = query({
 export const requests = query({
   args: {},
   handler: async (ctx) => {
-    const user = await requireUser(ctx);
+    const user = await optionalUser(ctx);
+    if (!user) return [];
     const rows = await ctx.db
       .query("friendships")
       .withIndex("addresseeId", (q) => q.eq("addresseeId", user._id))
@@ -106,7 +109,8 @@ export const requests = query({
 export const suggested = query({
   args: {},
   handler: async (ctx) => {
-    const user = await requireUser(ctx);
+    const user = await optionalUser(ctx);
+    if (!user) return [];
     const blocked = new Set<string>([user._id]);
     const related = [
       ...(await ctx.db

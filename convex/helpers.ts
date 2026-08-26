@@ -53,11 +53,15 @@ export function computeBestStreak(dates: string[]): number {
   return best;
 }
 
-export async function requireUser(ctx: QueryCtx | MutationCtx) {
+export async function optionalUser(ctx: QueryCtx | MutationCtx) {
   const userId = await getAuthUserId(ctx);
-  if (!userId) throw new Error("Sign in first.");
-  const user = await ctx.db.get(userId);
-  if (!user) throw new Error("Account not found.");
+  if (!userId) return null;
+  return await ctx.db.get(userId);
+}
+
+export async function requireUser(ctx: QueryCtx | MutationCtx) {
+  const user = await optionalUser(ctx);
+  if (!user) throw new Error("Sign in first.");
   return user;
 }
 

@@ -115,9 +115,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [isAuthenticated, isLoading, isPublic, router]);
 
   useEffect(() => {
-    if (!authed || isPublic) return;
+    if (!authed || isPublic || !snap) return;
     syncRulesMut({ date }).catch(() => undefined);
-  }, [authed, date, isPublic, syncRulesMut]);
+  }, [authed, date, isPublic, snap, syncRulesMut]);
 
   useEffect(() => {
     if (!snap || isPublic) return;
@@ -482,6 +482,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   ]);
 
   if (isPublic) return <>{children}</>;
+  if (authed && snap === null) {
+    return (
+      <div className="flex min-h-full items-center justify-center bg-ink-950 px-6 text-chalk">
+        <p className="max-w-sm text-center text-sm text-chalk-muted">
+          Signed in on the client, but Convex didn&apos;t accept the session. JWT_PRIVATE_KEY and
+          JWKS must be a matching pair on this deployment (no quotes).
+        </p>
+      </div>
+    );
+  }
   if (isLoading || !isAuthenticated || !value) {
     return (
       <div className="flex min-h-full items-center justify-center bg-ink-950 text-chalk">

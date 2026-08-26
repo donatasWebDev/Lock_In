@@ -6,6 +6,7 @@ import {
   computeStreak,
   isDevUnlimited,
   lockedDates,
+  optionalUser,
   profileOf,
   requireUser,
   sameMonth,
@@ -16,7 +17,8 @@ import { dayFor } from "./helpers";
 export const get = query({
   args: { date: v.string() },
   handler: async (ctx, { date }) => {
-    const user = await requireUser(ctx);
+    const user = await optionalUser(ctx);
+    if (!user) return null;
     const strategies = (
       await ctx.db
         .query("strategies")
