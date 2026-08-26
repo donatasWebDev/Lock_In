@@ -70,10 +70,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const date = todayKey();
   const isPublic = PUBLIC.has(pathname);
 
-  const snap = useQuery(api.snapshot.get, isAuthenticated ? { date } : "skip");
-  const friends = useQuery(api.friends.list, isAuthenticated ? { date } : "skip");
-  const requests = useQuery(api.friends.requests, isAuthenticated ? {} : "skip");
-  const suggested = useQuery(api.friends.suggested, isAuthenticated ? {} : "skip");
+  const authed = isAuthenticated && !isLoading;
+  const snap = useQuery(api.snapshot.get, authed ? { date } : "skip");
+  const friends = useQuery(api.friends.list, authed ? { date } : "skip");
+  const requests = useQuery(api.friends.requests, authed ? {} : "skip");
+  const suggested = useQuery(api.friends.suggested, authed ? {} : "skip");
 
   const lockMut = useMutation(api.days.lock);
   const unlockMut = useMutation(api.days.unlock);
@@ -114,9 +115,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [isAuthenticated, isLoading, isPublic, router]);
 
   useEffect(() => {
-    if (!isAuthenticated || isPublic) return;
+    if (!authed || isPublic) return;
     syncRulesMut({ date }).catch(() => undefined);
-  }, [date, isAuthenticated, isPublic, syncRulesMut]);
+  }, [authed, date, isPublic, syncRulesMut]);
 
   useEffect(() => {
     if (!snap || isPublic) return;

@@ -18,8 +18,22 @@ export function cleanError(err: unknown): string {
   return line.replace(/^\[.*?\]\s*/g, "").trim();
 }
 
+function missingAuthKeys(msg: string) {
+  return (
+    msg.includes("jwt_private_key") ||
+    msg.includes("jwks") ||
+    msg.includes("pkcs8") ||
+    (msg.includes("missing environment") && msg.includes("jwt"))
+  );
+}
+
 export function loginErrors(err: unknown): FieldErrors {
   const msg = cleanError(err).toLowerCase();
+  if (missingAuthKeys(msg)) {
+    return {
+      form: "Auth keys missing on this Convex deployment. Set JWT_PRIVATE_KEY and JWKS in Convex Production.",
+    };
+  }
   if (
     msg.includes("invalid credentials") ||
     msg.includes("invalid password") ||
@@ -27,14 +41,19 @@ export function loginErrors(err: unknown): FieldErrors {
   ) {
     return { password: "Incorrect username or password" };
   }
-  if (msg.includes("missing")) {
+  if (msg.includes("missing") && !msg.includes("environment")) {
     return { form: "Enter your username and password" };
   }
-  return { form: "Could not log in. Try again." };
+  return { form: cleanError(err) || "Could not log in. Try again." };
 }
 
 export function signupErrors(err: unknown): FieldErrors {
   const msg = cleanError(err).toLowerCase();
+  if (missingAuthKeys(msg)) {
+    return {
+      form: "Auth keys missing on this Convex deployment. Set JWT_PRIVATE_KEY and JWKS in Convex Production.",
+    };
+  }
   if (msg.includes("already exists") || msg.includes("taken")) {
     return { username: "That username is taken" };
   }
