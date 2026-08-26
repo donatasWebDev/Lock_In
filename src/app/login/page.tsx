@@ -49,8 +49,7 @@ export default function LoginPage() {
               password,
               flow: "signIn",
             });
-            router.push("/");
-            router.refresh();
+            router.replace("/");
           } catch (err) {
             setErrors(loginErrors(err));
           } finally {

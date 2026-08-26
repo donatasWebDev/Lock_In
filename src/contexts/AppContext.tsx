@@ -404,7 +404,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const data: AppSnapshot | null =
-    snap && friends && requests && suggested
+    snap != null
       ? {
           ...snap,
           profile: { ...snap.profile, ...profileOverlay },
@@ -417,9 +417,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           unlimitedGenerate: snap.unlimitedGenerate ?? false,
           strategies: snap.strategies as Strategy[],
           playbookRules: snap.playbookRules as Strategy[],
-          friends,
-          requests,
-          suggested,
+          friends: friends ?? [],
+          requests: requests ?? [],
+          suggested: suggested ?? [],
         }
       : null;
 

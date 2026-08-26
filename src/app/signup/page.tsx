@@ -54,8 +54,7 @@ export default function SignUpPage() {
               password,
               flow: "signUp",
             });
-            router.push("/");
-            router.refresh();
+            router.replace("/");
           } catch (err) {
             setErrors(signupErrors(err));
           } finally {
