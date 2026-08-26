@@ -6,12 +6,14 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
   variable: "--font-inter-tight",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${interTight.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ink-950 font-sans text-chalk">
+      <body className={`${inter.className} min-h-full bg-ink-950 font-sans text-chalk`}>
         <Providers>{children}</Providers>
       </body>
     </html>

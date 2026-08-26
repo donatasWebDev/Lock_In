@@ -42,7 +42,8 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   const [ios, setIos] = useState(false);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    const previewHost = /\.vercel\.app$/i.test(window.location.hostname);
+    if ("serviceWorker" in navigator && !previewHost) {
       navigator.serviceWorker.register("/sw.js").catch(() => undefined);
     }
     setInstalled(isStandalone());
