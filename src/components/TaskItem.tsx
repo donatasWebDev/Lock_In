@@ -33,7 +33,7 @@ export function TaskItem({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-      className={`flex items-start gap-3 rounded-xl border px-4 py-3.5 transition-colors duration-150 ease-snap ${
+      className={`flex items-start gap-2.5 rounded-xl border px-3 py-3 transition-colors duration-150 ease-snap sm:gap-3 sm:px-4 sm:py-3.5 ${
         skipped ? "border-ink-800 bg-ink-900" : "border-ink-800 bg-ink-850"
       }`}
     >
@@ -66,7 +66,7 @@ export function TaskItem({
       >
         <span className="flex items-start gap-1.5">
           <span
-            className={`min-w-0 flex-1 text-sm font-semibold transition-colors duration-150 ease-snap ${
+            className={`min-w-0 flex-1 break-words text-sm font-semibold transition-colors duration-150 ease-snap ${
               done ? "text-chalk-faint line-through" : skipped ? "text-chalk-faint" : "text-chalk"
             }`}
           >
@@ -99,7 +99,7 @@ export function TaskItem({
         <button
           type="button"
           onClick={() => onSkip(task.id)}
-          className={`mt-0.5 flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors duration-150 ease-snap ${
+          className={`mt-0.5 flex shrink-0 items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors duration-150 ease-snap sm:gap-1.5 sm:px-2.5 ${
             skipped
               ? "bg-ink-800 text-chalk-muted hover:text-chalk"
               : "text-chalk-faint hover:bg-ink-800 hover:text-chalk"
